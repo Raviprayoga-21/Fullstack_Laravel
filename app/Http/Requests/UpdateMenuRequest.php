@@ -23,7 +23,10 @@ class UpdateMenuRequest extends FormRequest
     {
         return [
             'nama_menu' => 'required',
+            'jenis_id' => 'required',
             'harga' => 'required',
+            'stok' => 'required',
+            'image' => 'mimes:png,jpg,jpeg|max:2048',
             'deskripsi' => 'required',
         ]; 
     }
@@ -32,7 +35,11 @@ class UpdateMenuRequest extends FormRequest
     {
         return [
             'nama_menu.required' => 'Menu belum diisi!',
+            'jenis_id.required' => 'Jenis belum diisi!',
             'harga.required' => 'Harga belum diisi!',
+            'stok.required' => 'Stok belum diisi!',
+            'image.required' => 'Image belum diisi!',
+            'deskripsi.required' => 'Deskripsi belum diisi!',
         ];
     }
 }

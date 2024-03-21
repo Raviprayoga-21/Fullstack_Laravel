@@ -9,6 +9,8 @@ use Exception;
 use Illuminate\Database\QueryException;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
+use App\Models\Jenis;
+use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
 {
@@ -19,13 +21,9 @@ class MenuController extends Controller
      */
     public function index()
     {
-        try{
-            $data['menu'] = menu::get();
+            $data['menu'] = Menu::with(['jenis'])->get();
+            $data['jenis'] = Jenis::get();
             return view('menu.index')->with($data);
-        }
-        catch (QueryException | Exception | PDOException $error) {
-            $this->failResponse($error->getMessage(), $error->getCode());
-        }
     }
 
     /**
@@ -46,8 +44,19 @@ class MenuController extends Controller
      */
     public function store(StoreMenuRequest $request)
     {
-        Menu::create($request->all());
+        $image = $request->file('image');
+        $filename = date('Y-m-d') . $image->getClientOriginalName();
+        $path = 'menu-image/' . $filename;
+        Storage::disk('public')->put($path, file_get_contents($image));
 
+        $data['jenis_id'] = $request->jenis_id;
+        $data['nama_menu'] = $request->nama_menu;
+        $data['harga'] = $request->harga;
+        $data['stok'] = $request->stok;
+        $data['image'] = $filename;
+        $data['deskripsi'] = $request->deskripsi;
+
+        Menu::create($data);
         return redirect('menu')->with('success', 'Data menu berhasil di tambahkan!');
     }
 
@@ -82,7 +91,27 @@ class MenuController extends Controller
      */
     public function update(UpdateMenuRequest $request, Menu $menu)
     {
-        $menu->update($request->all());
+        if ($request->file('image')) {
+            if($request->old_image){
+                Storage::disk('public')->delete('menu-image/'.$request->old_image);
+            }
+
+            $image = $request->file('image');
+            $filename = date('Y-m-d') . $image->getClientOriginalName();
+            $path = 'menu-image/' . $filename;
+
+            Storage::disk('public')->put($path, file_get_contents($image));
+            $data['image'] = $filename;
+        }
+
+
+        $data['jenis_id'] = $request->jenis_id;
+        $data['nama_menu'] = $request->nama_menu;
+        $data['harga'] = $request->harga;
+        $data['stok'] = $request->stok;
+        $data['deskripsi'] = $request->deskripsi;
+
+        $menu->update($data);
         return redirect('menu')->with('success', 'Update data berhasil');
     }
 
