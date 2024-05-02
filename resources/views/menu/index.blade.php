@@ -40,6 +40,12 @@
               <i class="fas fa-plus"></i>
                Tambah Menu
             </button>
+            <a href="{{ route('export-menu') }}" class="btn btn-success" style="margin-left: 5px;">
+              <i class="fas fa-file-excel"></i> Export
+          </a>
+          <a href="#" class="btn btn-warning" style="margin-left: 5px;" data-toggle="modal" data-target="#formImport">
+            <i class="fas fa-file-excel"></i> Import
+        </a>
             @include('menu.data')
         </div>
         <!-- /.card-body -->
@@ -100,7 +106,6 @@
         const nama_menu = btn.data('nama_menu');
         const jenis_id = btn.data('jenis_id');
         const harga = btn.data('harga');
-        const stok = btn.data('stok');
         const old_image = btn.data('image');
         const deskripsi = btn.data('deskripsi');
         const id = btn.data('id');
@@ -110,7 +115,6 @@
             modal.find('#nama_menu').val(nama_menu); 
             modal.find('#jenis_id').val(jenis_id); 
             modal.find('#harga').val(harga); 
-            modal.find('#stok').val(stok); 
             modal.find('#old_image').val(image); 
             modal.find('#deskripsi').val(deskripsi);
             modal.find('.img-preview').attr('src','{{ asset("storage/menu-image")}}/' + image );
@@ -121,7 +125,6 @@
             modal.find('#nama_menu').val(''); 
             modal.find('#jenis_id').val('');
             modal.find('#harga').val('');
-            modal.find('#stok').val('');
             modal.find('#old_image').val('');
             modal.find('#deskripsi').val('');
             modal.find('.img-preview').attr('src', '');

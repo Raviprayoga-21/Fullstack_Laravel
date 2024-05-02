@@ -1,6 +1,6 @@
 <div class="mt-4">
     <table id="tbl-pelanggan" class="table table-hover">
-        <thead>
+        <thead style="background-color: #1966e3; color: white; font-weight: bold;"> <!-- Mengubah warna latar menjadi biru cerah -->
             <tr>
                 <th>No.</th>
                 <th>Nama Pelanggan</th>
@@ -21,7 +21,13 @@
                 <td>{{ $p->alamat }}</td>
                 <td>{{ $p->jenis_kelamin }}</td>
                 <td>
-                    <button class='btn' type="button" style="color:green" data-toggle="modal" data-target="#formModal" data-mode="edit" data-id="{{ $p->id }}" data-nama_pelanggan="{{ $p->nama_pelanggan }}" data-email="{{ $p->email }}" data-nomor_telepon="{{ $p->nomor_telepon }}" data-alamat="{{ $p->alamat }}" data-jenis_kelamin="{{ $p->jenis_kelamin }}">
+                    <button class='btn' type="butto n" style="color:green" data-toggle="modal" data-target="#formModal" data-mode="edit" 
+                    data-id="{{ $p->id }}" 
+                    data-nama_pelanggan="{{ $p->nama_pelanggan }}" 
+                    data-email="{{ $p->email }}" 
+                    data-nomor_telepon="{{ $p->nomor_telepon }}" 
+                    data-alamat="{{ $p->alamat }}" 
+                    data-jenis_kelamin="{{ $p->jenis_kelamin }}">
                         <i class="fa fa-edit"></i>
                     </button>
                     <form action="{{ url('pelanggan/'.$p->id) }}" style="display:inline" method="POST">

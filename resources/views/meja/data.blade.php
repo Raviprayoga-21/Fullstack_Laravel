@@ -1,6 +1,6 @@
 <div class="mt-4">
     <table id="tbl-jenis" class="table table-hover">
-        <thead>
+        <thead style="background-color: #1966e3; color: white; font-weight: bold;"> <!-- Mengubah warna latar menjadi biru cerah -->
             <tr>
                 <th>No.</th>
                 <th>Nomor Meja</th>

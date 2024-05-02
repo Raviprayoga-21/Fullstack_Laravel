@@ -10,6 +10,7 @@ class ProdukTitipan extends Model
     use HasFactory;
 
     protected $table = 'produktitipan';
+    protected $hidden = ['created_at', 'updated_at'];
     protected $fillable = 
     [
         'nama_produk',

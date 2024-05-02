@@ -33,10 +33,6 @@
               <input type="number" class="form-control col-sm-4" id="harga" placeholder="Harga" name="harga" min="0">
             </div>
             <div class="form-group">
-              <label for="stok">Stok</label>
-              <input type="number" class="form-control col-sm-2" id="stok" placeholder="Stok" name="stok" min="0">
-            </div>
-            <div class="form-group">
               <label for="image">Image</label>
               <img class="img-preview img-fluid" style="max-height: 200px">
               <div class="input-group input-group-outline my-3" style="width: 250px;"> <!-- Sesuaikan lebar dengan kebutuhan Anda -->
@@ -57,3 +53,4 @@
     </div>
   </div>
 </div>
+

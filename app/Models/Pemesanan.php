@@ -10,7 +10,7 @@ class Pemesanan extends Model
     use HasFactory;
 
     protected $table = 'pemesanan';
-
+    protected $hidden = ['created_at', 'updated_at'];
     protected $fillable = 
     [
         'tanggal_pemesanan',
@@ -20,8 +20,4 @@ class Pemesanan extends Model
         'jumlah_pelanggan'
     ];
 
-    public function menu()
-    {
-        return $this->hasMany(Menu::class, 'pemesanan_id', 'id');
-    }
 }

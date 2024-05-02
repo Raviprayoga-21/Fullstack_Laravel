@@ -40,6 +40,13 @@
               <i class="fas fa-plus"></i>
                Tambah Jenis
             </button>
+            <a href="{{ route('export-jenis') }}" class="btn btn-success" style="margin-left: 5px;">
+              <i class="fas fa-file-excel"></i> Export
+          </a>
+          
+          <a href="#" class="btn btn-warning" style="margin-left: 5px;" data-toggle="modal" data-target="#formImport">
+              <i class="fas fa-file-excel"></i> Import
+          </a>
             @include('jenis.data')
         </div>
         <!-- /.card-body -->

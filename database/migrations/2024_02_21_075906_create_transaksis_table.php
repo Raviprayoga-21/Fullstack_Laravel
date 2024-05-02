@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal');
-            $table->foreignId('id_pelanggan')->references('id')->on('pelanggan')->cascadeOnDelete();
             $table->double('total_harga');
             $table->enum('metode_pembayaran',['cash','qris','transfer']);
             $table->string('keterangan');
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaksis');
+        Schema::dropIfExists('transaksi');
     }
 };

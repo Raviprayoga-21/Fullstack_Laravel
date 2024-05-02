@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PelangganExport;
 use illuminate\Suporrt\Facades\DB;
 use App\Models\Pelanggan;
 use PDOException;
@@ -9,6 +10,8 @@ use Exception;
 use Illuminate\Database\QueryException;
 use App\Http\Requests\StorePelangganRequest;
 use App\Http\Requests\UpdatePelangganRequest;
+use App\Imports\PelangganImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PelangganController extends Controller
 {
@@ -42,6 +45,19 @@ class PelangganController extends Controller
         Pelanggan::create($request->all());
 
         return redirect('pelanggan')->with('susccess', 'Data berhasil di tambahkan!');
+    }
+
+    public function exportData()
+    {
+        // $date = date('Y-m-d');
+        return Excel::download(new PelangganExport, 'pelanggan.xlsx');
+    }
+
+    public function importData()
+    {
+        Excel::import(new PelangganImport, request()->file('import'));
+        
+        return redirect('pelanggan')->with('success', 'Data berhasil di tambahkan!');
     }
 
     /**

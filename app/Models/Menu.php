@@ -10,24 +10,21 @@ class Menu extends Model
     use HasFactory;
 
     protected $table = 'menu';
-
-    protected $fillable = 
+    protected $hidden = ['image', 'created_at', 'updated_at'];
+    protected $guarded = 
     [
-        'nama_menu',
-        'jenis_id',
-        'harga',
-        'stok',
-        'image',
-        'deskripsi'
+        'id'
     ];
 
     public function jenis()
     {
-        return $this->belongsTo(Jenis::class, 'jenis_id', 'id');
+        return $this->belongsTo(Jenis::class, 'jenis_id');
     }
 
-    public function pemesanan()
+    public function stok()
     {
-        return $this->belongsTo(Pemesanan::class, 'pemesanan_id', 'id');
+        return $this->hasMany(Stok::class);
     }
+
+
 }

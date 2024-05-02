@@ -9,11 +9,11 @@ class Transaksi extends Model
 {
     use HasFactory;
 
-    protected $table = 'detail_transaksi';
-    protected $fillable = ['tanggal', 'id_pelanggan', 'total_harga', 'metode_pembayaran', 'keterangan'];
+    protected $table = 'transaksi';
+    protected $fillable = ['id', 'tanggal', 'total_harga', 'metode_pembayaran', 'keterangan'];
 
-    public function pelanggan()
+    public function detailTransaksi()
     {
-        return $this->belongsTo(Pelanggan::class, 'id_pelanggan');
+        return $this->hasMany(DetailTransaksi::class);
     }
 }

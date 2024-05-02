@@ -13,9 +13,14 @@ class UserController extends Controller
     {
         if ($user = Auth::user()) {
             switch ($user->level) {
-                case 1:
-                case 2:
-                    return redirect()->intended('/');
+                case '1':
+                    return redirect()->intended('/jenis');
+                    break;
+                case '2':
+                    return redirect()->intended('/pelanggan');
+                    break;
+                case '3':
+                    return redirect()->intended('/laporan');
                     break;
                 default:
                     return view('auth.login');
@@ -30,13 +35,17 @@ class UserController extends Controller
     {
         $credentials = $request->only('email', 'password');
         $request->session()->regenerate();
-        
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             switch ($user->level) {
-                case 1:
-                case 2:
-                    return redirect()->intended('/');
+                case '1':
+                    return redirect()->intended('/jenis');
+                    break;
+                case '2':
+                    return redirect()->intended('/pelanggan');
+                    break;
+                case '3':
+                    return redirect()->intended('/laporan');
                     break;
             }
             return redirect()->intended('/');

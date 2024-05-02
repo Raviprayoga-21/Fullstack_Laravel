@@ -9,6 +9,9 @@ use Exception;
 use Illuminate\Database\QueryException;
 use App\Http\Requests\StoreMejaRequest;
 use App\Http\Requests\UpdateMejaRequest;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\MejaExport;
+use App\Imports\MejaImport;
 
 class MejaController extends Controller
 {
@@ -37,6 +40,19 @@ class MejaController extends Controller
         Meja::create($request->all());
 
         return redirect('meja')->with('susccess', 'Data berhasil di tambahkan!');
+    }
+
+    public function exportData()
+    {
+        // $date = date('Y-m-d');
+        return Excel::download(new MejaExport, 'meja.xlsx');
+    }
+
+    public function importData()
+    {
+        Excel::import(new MejaImport, request()->file('import'));
+        
+        return redirect('meja')->with('success', 'Data berhasil di tambahkan!');
     }
 
     /**

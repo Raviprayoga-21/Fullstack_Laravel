@@ -2,10 +2,31 @@
 <html lang="en">
 
 <head>
+    <!-- Kode CSS untuk warna sidebar -->
+    <style>
+        .sidebar-dark-primary {
+            background-color: #0047ab !important; /* Warna biru yang agak gelap */
+        }
+        .nav-sidebar .nav-link {
+            font-weight: bold; /* Membuat font sidebar menjadi tebal */
+        }
+        .brand-text {
+            font-family: 'Pacifico', cursive; /* Font untuk "CaffeRafi" */
+            font-size: 28px; /* Ukuran font untuk "CaffeRafi" */
+            color: #fff; /* Warna font untuk "CaffeRafi" */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Efek shadow untuk "CaffeRafi" */
+        }
+        .navbar-brand .brand-text {
+            font-weight: normal; /* Mengembalikan ke tebal semula */
+        }
+    </style>
+
+    <!-- Ini tetap ada, jangan dihapus -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Caffe</title>
 
+    <!-- Ini tetap ada, jangan dihapus -->
     <link rel="stylesheet" href="{{ asset('adminlte3') }}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet"
         href="{{ asset('adminlte3') }}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -41,8 +62,8 @@
             <!-- Brand Logo -->
             <a href="{{ asset('adminlte3') }}/index3.html" class="brand-link">
                 <img src="{{ asset('adminlte3') }}/dist/img/ravi.jpg" alt="AdminLTE Logo"
-                    class="brand-image img-circle elevation-3" style="opacity: .8; width: 40px; height: 40px;">
-                <span class="brand-text font-the-quick-brown-fox mt-6">Caffe Ravi</span>
+                    class="brand-image img-circle elevation-3" style="opacity: .8; width: 40px; height: 40px; object-fit:cover;">
+                <span class="brand-text font-the-quick-brown-fox mt-6">CaffeRavi</span>
             </a>
 
             <!-- Sidebar -->
@@ -57,22 +78,6 @@
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                        <li class="nav-item">
-                            <a href="{{ url('/tentangaplikasi') }}" class="nav-link">
-                                <i class="nav-icon fas fa-circle"></i>
-                                <p>
-                                    Tentang Aplikasi
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('member') }}" class="nav-link">
-                                <i class="nav-icon fas fa-user-tag"></i>
-                                <p>
-                                    Member
-                                </p>
-                            </a>
-                        </li>
                         <li class="nav-item">
                             <a href="{{ url('jenis') }}" class="nav-link">
                                 <i class="nav-icon fas fa-indent"></i>
@@ -98,35 +103,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('pelanggan') }}" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
+                            <a href="{{ url('laporan') }}" class="nav-link">
+                                <i class="nav-icon fas fa-box"></i>
                                 <p>
-                                    Pelanggan
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('meja') }}" class="nav-link">
-                                <i class="nav-icon fas fa-table"></i>
-                                <p>
-                                    Meja
-                                </p>
-                            </a>
-                        </li>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('pemesanan') }}" class="nav-link">
-                                <i class="nav-icon fas fa-pen"></i>
-                                <p>
-                                    Pemesanan
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('produktitipan') }}" class="nav-link">
-                                <i class="nav-icon fas fa-id-card"></i>
-                                <p>
-                                    Produk Titipan
+                                    Laporan
                                 </p>
                             </a>
                         </li>
@@ -140,7 +120,7 @@
                         </li>
                     </ul>
                 </nav>
-                <!-- /.sidebar-menu -->
+                <!-- /.sidebar-menu indent-->
             </div>
             <!-- /.sidebar -->
         </aside>
@@ -152,6 +132,8 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
+                            <!-- Tulisan "Admin" -->
+                            <h1>ADMIN</h1>
                         </div>
                         <div class="col-sm-6">
                         </div>

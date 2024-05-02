@@ -1,4 +1,4 @@
-@extends('template.layout')
+@extends('template.layout2')
 @push('styles')
 @endpush
 
@@ -38,8 +38,14 @@
             @endif
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModal">
               <i class="fas fa-plus"></i>
-               Tambah pelanggan
+               Tambah Pelanggan
             </button>
+            <a href="{{ route('export-pelanggan') }}" class="btn btn-success" style="margin-left: 5px;">
+              <i class="fas fa-file-excel"></i> Export
+          </a>
+          <a href="#" class="btn btn-warning" style="margin-left: 5px;" data-toggle="modal" data-target="#formImport">
+              <i class="fas fa-file-excel"></i> Import
+          </a>
             @include('pelanggan.data')
         </div>
         <!-- /.card-body -->
@@ -79,7 +85,7 @@
     });
 
     $(function() {
-        $('#tbl-member').DataTable(); // Corrected the DataTable initialization
+        $('#tbl-pelanggan').DataTable(); // Corrected the DataTable initialization
     });
 
     // dialog hapus Data
@@ -113,8 +119,12 @@
             modal.find('.modal-body form').attr('action', '{{ url("pelanggan") }}/' + id);
             modal.find('#method').html('@method("PUT")');
         } else {
-            modal.find('.modal-title').text('Input Data member');
-            modal.find('#Nama').val(''); // Clear the input field for new entries
+            modal.find('.modal-title').text('Input Data Pelanggan');
+            modal.find('#nama_pelanggan').val(''); // Clear the input field for new entries
+            modal.find('#email').val(''); // Clear the input field for new entries
+            modal.find('#nomor_telepon').val(''); // Clear the input field for new entries
+            modal.find('#alamat').val(''); // Clear the input field for new entries
+            modal.find('#jenis_kelamin').val(''); // Clear the input field for new entries
             modal.find('#method').html('');
             modal.find('.modal-body form').attr('action', '{{ url("pelanggan") }}');
         }

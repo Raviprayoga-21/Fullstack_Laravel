@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\KategoriExport;
 use illuminate\Suporrt\Facades\DB;
 use App\Models\Kategori;
 use PDOException;
 use Exception;
 use Illuminate\Database\QueryException;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\StoreKategoriRequest;
 use App\Http\Requests\UpdateKategoriRequest;
+use App\Imports\KategoriImport;
 
 class KategoriController extends Controller
 {
@@ -42,6 +45,19 @@ class KategoriController extends Controller
         Kategori::create($request->all());
 
         return redirect('kategori')->with('susccess', 'Data berhasil di tambahkan!');
+    }
+
+    public function exportData()
+    {
+        // $date = date('Y-m-d');
+        return Excel::download(new KategoriExport, 'kategori.xlsx');
+    }
+
+    public function importData()
+    {
+        Excel::import(new KategoriImport, request()->file('import'));
+        
+        return redirect('kategori')->with('success', 'Data berhasil di tambahkan!');
     }
 
     /**

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('jenis_id')->constrained('jenis')->onDelete('cascade');
             $table->string('nama_menu', 100);
             $table->integer('harga');
-            $table->integer('stok');
             $table->string('deskripsi', 100);
             $table->timestamps();
         });

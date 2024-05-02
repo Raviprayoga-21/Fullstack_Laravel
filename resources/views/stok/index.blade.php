@@ -40,6 +40,13 @@
               <i class="fas fa-plus"></i>
                Tambah Stok
             </button>
+            <a href="{{ route('export-stok') }}" class="btn btn-success" style="margin-left: 5px;">
+              <i class="fas fa-file-excel"></i> Export
+          </a>
+          
+          <a href="#" class="btn btn-warning" style="margin-left: 5px;" data-toggle="modal" data-target="#formImport">
+              <i class="fas fa-file-excel"></i> Import
+          </a>
             @include('stok.data')
         </div>
         <!-- /.card-body -->
@@ -79,7 +86,7 @@
     });
 
     $(function() {
-        $('#tbl-kategori').DataTable(); // Corrected the DataTable initialization
+        $('#tbl-stok').DataTable(); // Corrected the DataTable initialization
     });
 
     // dialog hapus Data
@@ -93,20 +100,23 @@
     });
 
     $('#formModal').on('show.bs.modal', function(e) {
+      console.log('edit');
         const btn = $(e.relatedTarget);
         const mode = btn.data('mode');
-        console.log('edit');
+        const menu_id = btn.data('menu_id');
         const jumlah = btn.data('jumlah');
         const id = btn.data('id');
         const modal = $(this);
         if (mode === 'edit') {
             modal.find('.modal-title').text('Edit Data Stok');
+            modal.find('#menu_id').val(menu_id);
             modal.find('#jumlah').val(jumlah);
             modal.find('.modal-body form').attr('action', '{{ url("stok") }}/' + id);
-            modal.find('#method').html('@method("PUT")');
+            modal.find('#method').html('@method("PATCH")');
         } else {
             modal.find('.modal-title').text('Input Data Stok');
-            modal.find('#Nama').val(''); // Clear the input field for new entries
+            modal.find('#menu_id').val('');
+            modal.find('#jumlah').val('');
             modal.find('#method').html('');
             modal.find('.modal-body form').attr('action', '{{ url("stok") }}');
         }

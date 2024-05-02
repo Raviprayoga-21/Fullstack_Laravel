@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('stok', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('menu_id')->references('id')->on('menu')->cascadeOnDelete();
             $table->unsignedBigInteger('jumlah');
             $table->timestamps();
         });

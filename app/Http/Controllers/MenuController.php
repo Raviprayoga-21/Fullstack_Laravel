@@ -11,6 +11,9 @@ use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use App\Models\Jenis;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\MenuExport;
+use App\Imports\MenuImport;
 
 class MenuController extends Controller
 {
@@ -59,6 +62,20 @@ class MenuController extends Controller
         Menu::create($data);
         return redirect('menu')->with('success', 'Data menu berhasil di tambahkan!');
     }
+
+    public function exportdata()
+    {
+        // $date = date('Y-m-d');
+        return Excel::download(new MenuExport, 'menu.xlsx');
+    }
+
+    public function importdata()
+    {
+        Excel::import(new MenuImport, request()->file('import'));
+        
+        return redirect('absensikaryawan')->with('susccess', 'Data berhasil di tambahkan!');
+    }
+
 
     /**
      * Display the specified resource.

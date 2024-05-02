@@ -1,4 +1,4 @@
-@extends('template.layout')
+@extends('template.layout2')
 @push('styles')
 @endpush
 
@@ -40,6 +40,12 @@
               <i class="fas fa-plus"></i>
                Tambah Meja
             </button>
+            <a href="{{ route('export-meja') }}" class="btn btn-success" style="margin-left: 5px;">
+              <i class="fas fa-file-excel"></i> Export
+          </a>
+          <a href="#" class="btn btn-warning" style="margin-left: 5px;" data-toggle="modal" data-target="#formImport">
+              <i class="fas fa-file-excel"></i> Import
+          </a>
             @include('meja.data')
         </div>
         <!-- /.card-body -->

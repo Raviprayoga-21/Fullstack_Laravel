@@ -19,7 +19,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="btn-submit">Anjay</button>
+                    <button type="submit" class="btn btn-primary" id="btn-submit">Upload</button>
                 </div>
             </form>
         </div>

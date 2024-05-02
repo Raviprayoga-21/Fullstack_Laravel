@@ -13,7 +13,6 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProdukTitipanExport;
 use App\Imports\ProdukTitipanImport;
 
-
 class ProdukTitipanController extends Controller
 {
     /**

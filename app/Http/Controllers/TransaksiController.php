@@ -2,74 +2,112 @@
 
 namespace App\Http\Controllers;
 
-use illuminate\Suporrt\Facades\DB;
+use App\Exports\LaporanExport;
 use App\Models\Transaksi;
-use PDOException;
-use Exception;
-use Illuminate\Database\QueryException;
 use App\Http\Requests\StoreTransaksiRequest;
 use App\Http\Requests\UpdateTransaksiRequest;
+use App\Models\DetailTransaksi;
+use App\Models\Jenis;
+use App\Models\Menu;
+use App\Models\Stok;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use PDOException;
 
 class TransaksiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-            $data['transaksi'] = Transaksi::get();
-            return view('transaksi.index')->with($data);
+        $transaksi = Transaksi::with('detailTransaksi.menu')->get();
+        return view('laporan.index', compact('transaksi'));
     }
+    
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreTransaksiRequest $request)
     {
-        Transaksi::create($request->all());
+        try {
+            DB::beginTransaction();
 
-        return redirect('transaksi')->with('susccess', 'Data berhasil di tambahkan!');
+            $last_id = Transaksi::where('tanggal', date('Y-m-d'))->orderBy('created_at', 'desc')->select('id')->first();
+            $notrans = $last_id == null ? date('Ymd').'0001' : date('Ymd').sprintf('%04d', substr($last_id->id, 8, 4)+1);
+
+            $jumlahBayar = $request->jumlah_bayar;
+            $kembalian = $jumlahBayar - $request->total;
+
+            $insertTransaksi = Transaksi::create([
+                'id' => $notrans,
+                'tanggal' => date('Y-m-d'),
+                'total_harga' => $request->total,
+                'jumlah_bayar' => $jumlahBayar,
+                'kembalian' => $kembalian,
+                'metode_pembayaran' => 'cash',
+                'keterangan' => ''
+            ]);
+
+            if (!$insertTransaksi->exists) {
+                return response()->json(['status' => false, 'message' => 'Pemesanan Gagal!']);
+            }
+
+            foreach ($request->orderedList as $detail) {
+                $stok = Stok::where('menu_id', $detail['id'])->first();
+                $stok->update([
+                    'jumlah'=>$stok->jumlah - $detail['qty']
+                ]);
+                $insertDetailTransaksi = DetailTransaksi::create([
+                    'transaksi_id' => $notrans,
+                    'menu_id' => $detail['id'],
+                    'jumlah' => $detail['qty'],
+                    'subtotal' => $detail['harga'] * $detail['qty'],
+                ]);
+
+
+            }
+
+            DB::commit();
+            return response()->json(['status' => true, 'message' => 'Pemesanan Berhasil!', 'notrans' => $notrans]);
+        } catch (Exception | QueryException | PDOException $e) {
+            DB::rollBack();
+            return response()->json(['status' => false, 'message' => 'Pemesanan Gagal!', 'error' => $e->getMessage()]);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Transaksi $transaksi)
+    public function faktur($nofaktur)
     {
-        //
+        try {
+            $data['transaksi'] = Transaksi::where('id', $nofaktur)
+                ->with(['detailTransaksi' => function ($query) {
+                    $query->with('menu');
+                }])->first();
+    
+            return view('faktur.index')->with(($data));
+        } catch (Exception | QueryException | PDOException $e) {
+            return response()->json(['status' => false, 'message' => 'Pemesanan Gagal!']);
+        }
+        // } catch (ModelNotFoundException $e) 
+        // {
+        //     return response()->json(['status' => false, 'message' => 'Transaction not found.']);
+        // } catch (\Exception $e) {
+        //     return response()->json(['status' => false, 'message' => 'Error: ' . $e->getMessage()]);
+        // }
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Transaksi $transaksi)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
+    
+    
     public function update(UpdateTransaksiRequest $request, Transaksi $transaksi)
     {
-        $transaksi->update($request->all());
-        return redirect('transaksi')->with('success', 'Update data berhasil');
+        // Your update method code here
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Transaksi $transaksi)
     {
-        $transaksi->delete();
-        return redirect('transaksi')->with('success','Data berhasil dihapus!'); 
+        // Your destroy method code here
+    }
+
+    public function exportData()
+    {
+        // $date = date('Y-m-d');
+        return Excel::download(new LaporanExport, 'laporan.xlsx');
     }
 }

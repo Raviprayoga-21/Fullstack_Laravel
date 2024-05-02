@@ -6,9 +6,12 @@ use illuminate\Suporrt\Facades\DB;
 use App\Models\Jenis;
 use PDOException;
 use Exception;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\QueryException;
 use App\Http\Requests\StoreJenisRequest;
 use App\Http\Requests\UpdateJenisRequest;
+use App\Imports\JenisImport;
+use App\Exports\JenisExport;
 
 class JenisController extends Controller
 {
@@ -42,6 +45,19 @@ class JenisController extends Controller
         Jenis::create($request->all());
 
         return redirect('jenis')->with('susccess', 'Data berhasil di tambahkan!');
+    }
+
+    public function exportData()
+    {
+        // $date = date('Y-m-d');
+        return Excel::download(new JenisExport, 'jenis.xlsx');
+    }
+
+    public function importData()
+    {
+        Excel::import(new JenisImport, request()->file('import'));
+        
+        return redirect('jenis')->with('success', 'Data berhasil di tambahkan!');
     }
 
     /**

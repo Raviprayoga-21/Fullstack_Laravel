@@ -10,7 +10,7 @@ class Jenis extends Model
     use HasFactory;
 
     protected $table = 'jenis';
-
+    protected $hidden = ['created_at', 'updated_at'];
     protected $fillable = 
     [
         'nama_jenis'
@@ -18,6 +18,6 @@ class Jenis extends Model
 
     public function menu()
     {
-        return $this->hasMany(Menu::class, 'id');
+        return $this->hasMany(Menu::class, 'jenis_id', 'id');
     }
 }

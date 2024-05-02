@@ -10,7 +10,7 @@ class Meja extends Model
     use HasFactory;
 
     protected $table = 'meja';
-
+    protected $hidden = ['created_at', 'updated_at'];
     protected $fillable = 
     [
         'nomor_meja',

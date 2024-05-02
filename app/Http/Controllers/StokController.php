@@ -9,6 +9,10 @@ use Exception;
 use Illuminate\Database\QueryException;
 use App\Http\Requests\StoreStokRequest;
 use App\Http\Requests\UpdateStokRequest;
+use App\Models\Menu;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\StokImport;
+use App\Exports\StokExport;
 
 class StokController extends Controller
 {
@@ -17,7 +21,8 @@ class StokController extends Controller
      */
     public function index()
     {
-            $data['stok'] = stok::get();
+            $data['stok'] = Stok::with(['menu'])->get();
+            $data['menu'] = Menu::get();
             return view('stok.index')->with($data);
     }
 
@@ -37,6 +42,19 @@ class StokController extends Controller
         Stok::create($request->all());
 
         return redirect('stok')->with('susccess', 'Data berhasil di tambahkan!');
+    }
+
+    public function exportData()
+    {
+        // $date = date('Y-m-d');
+        return Excel::download(new StokExport, 'stok.xlsx');
+    }
+
+    public function importData()
+    {
+        Excel::import(new StokImport, request()->file('import'));
+        
+        return redirect('kategori')->with('success', 'Data berhasil di tambahkan!');
     }
 
     /**

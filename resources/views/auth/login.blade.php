@@ -19,7 +19,7 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="{{ asset('adminlte3') }}/index2.html" class="h1"><b>Caffe</b>Ravi</a>
+      <a href="" class="h1"><b>Caffe</b>Ravi</a>
     </div>
     <div class="card-body">
 
@@ -63,11 +63,7 @@
         </div>
         <div class="row">
           <div class="col-8">
-            <div class="icheck-primary">
-              <input type="checkbox" id="remember">
-              <label for="remember">
-                 Ingat Saya
-              </label>
+            <div class="icheck-primary">  
             </div>
           </div>
           <!-- /.col -->
